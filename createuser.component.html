@@ -1,0 +1,90 @@
+<!-- This Form which includes Angular Auto-generated form model-->
+<form #UserForm="ngForm" (ngSubmit)="saveUser(User)">
+    <!--(ngSubmit)="saveEmployee(UserForm)" : Angular Auto generated model-->
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Create User</h3>
+        </div>
+        <div class="panel-body">
+
+            <div class="form-group" [class.has-error]="name.invalid && name.touched" [class.has-success]="name.valid">
+                <label for="fullName" class="control-label">Full Name</label>
+                <!--local template variable (called as template reference variable) : #fullNameControl-->
+                <input id="fullName" type="text" class="form-control" name="fullName" [(ngModel)]="User.name" required
+                    [pattern]="fullnamePattern" maxlength="5" #name="ngModel">
+                <span class="help-block" *ngIf="name.invalid && name.touched && !name.errors?.pattern ">Full Name is
+                    required</span>
+                <span class="help-block" *ngIf="name.invalid && name.touched && name.errors?.pattern">Full Name Not
+                    Valid. Alphapets only allowed, it should be maximum 5 characters</span>
+            </div>
+
+            <div class="form-group" [class.has-error]="sex.invalid && sex.touched && sex.errors?.required">
+                <label class="control-label">Sex</label>
+                <div class="form-control">
+                    <label class="radio-inline">
+                        <input type="radio" required #sex="ngModel" name="sex" value="male" [(ngModel)]="User.sex"> Male
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" required #sex="ngModel" name="sex" value="female" [(ngModel)]="User.sex">
+                        Female
+                    </label>
+                </div>
+                <span class="help-block" *ngIf="sex.invalid && sex.touched && sex.errors?.required">
+                    Gender is required
+                </span>
+            </div>
+            <div class="form-group" [class.has-error]="email.invalid && email.touched ">
+                <label for="email" class="control-label">Email</label>
+                <input required [pattern]="emailPattern" id="email" type="text" class="form-control" name="email"
+                    [(ngModel)]="User.email" #email="ngModel">
+                <span class="help-block"
+                    *ngIf="email.invalid && email.touched && email.errors?.required && !email.errors?.pattern "> Email
+                    is required </span>
+                <span class="help-block" *ngIf="email.invalid && email.touched && email.errors?.pattern "> Email is
+                    Invalid </span>
+            </div>
+            
+            <div class="row">
+                <div class="form-group col-md-4" [class.has-error]="dateOfBirth.invalid && dateOfBirth.touched ">
+                    <label for="dateOfBirth">Date Of Birth</label>
+                    <input type="text" name="dateOfBirth" required [(ngModel)]="User.dateOfBirth" class="form-control"
+                        bsDatepicker [bsConfig]="datePickerConfig" (bsValueChange)="onValueChange($event)" #dateOfBirth="ngModel"  >
+                    <span class="help-block" *ngIf="dateOfBirth.invalid && dateOfBirth.touched && dateOfBirth.errors?.required "> Date of Birth is required </span>
+
+                    <span>Error :{{dateOfBirth.errors | json}}</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="age">Age</label>
+                <input type="text" id="age" disabled name="age" [(ngModel)]="User.age" class="form-control" #age="ngModel">
+            </div>
+            <div class="form-group" >
+                <label for="country" class="control-label">Country</label>
+                <select id="country"  name="country" [(ngModel)]="User.country"
+                    (ngModelChange)="showValueInCode(User.country, $event)" #country="ngModel"
+                    class="form-control">
+                    <option value='0'>Select Country</option>
+                    <option *ngFor="let country of countrys" [value]="country.code"> {{country.name}}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="code">Country Code</label>
+                <input type="text"  name="code" [(ngModel)]="User.code" class="form-control" #code="ngModel">
+            </div>
+            <div class="form-group">
+                <button type="button" (click)="togglePhotoPreview()" class="btn btn-primary">
+                    {{previewPhoto?"Hide " : "Show "}} Photo
+                </button>
+            </div>            
+        </div>
+        <div class="panel-footer">
+            <button class="btn btn-primary" type="submit" [disabled]="UserForm.invalid">Save</button>
+        </div>
+    </div>
+</form>
+<div>
+    UserForm : {{UserForm.value | json}}
+</div>
+<div>
+    User : {{User | json}}
+</div>
